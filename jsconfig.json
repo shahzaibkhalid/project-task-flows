@@ -1,0 +1,33 @@
+/**
+  For `jsoncifg.json` file to work, it has to be at the root
+  otherwise VSCode doesn't recognize it. It's a known issue in
+  the VSCode community but no solution for now.
+  Related issues:
+  https://github.com/microsoft/vscode/issues/106136
+  https://github.com/microsoft/TypeScript/issues/33094
+*/
+
+{
+  // we want VSCode to only consider directories and files
+  // under `src` directory to be the part of source code
+  "include": ["src/**/*"],
+  /**
+    As Jest is not installed in the project and loaded through
+    manage-react-app, VSCode does not load Jest's types, we are
+    explicitly asking VSCode to acuiqre Jest's types for a better
+    intellisense in tests files.
+  */
+  "typeAcquisition": {
+    "include": ["jest"]
+  },
+  //TODO: document this in detail
+  "compilerOptions": {
+    "target": "esnext",
+    "moduleResolution": "node",
+    "jsx": "preserve",
+    "baseUrl": "./src/",
+    "paths": {
+      "*": ["*"]
+    }
+  },
+}

@@ -1,0 +1,63 @@
+// TODO: keep commenting all the options here
+{
+  /**
+    @[javascript]
+    All the settings we want to be applied to
+    JavaScript files (files with extension .js)
+  */
+  "[javascript]": {
+    // apply Prettier formatting when code is saved
+    "editor.formatOnSave": true,
+    // On saving the file, it fixes all the ESLint
+    // errors/warnings that can be fixed
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": true
+    },
+    // to make sure that `editor.formatOnSave` uses the
+    // said extension as a Formatter instead of any other
+    // built-in or 3rd-party formatter.
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+
+  /**
+    @[javascriptreact]
+    All the settings we want to be applied to
+    JavaScript React files (files with extension .jsx)
+  */
+  "[javascriptreact]": {
+    // apply Prettier formatting when code is saved
+    "editor.formatOnSave": true,
+    // On saving the file, it fixes all the ESLint
+    // errors/warnings that can be fixed
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": true
+    },
+    // to make sure that `editor.formatOnSave` uses the
+    // said extension as a Formatter instead of any other
+    // built-in or 3rd-party formatter.
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+  },
+
+  /**
+  * @Prettier
+  * The following options are related to Prettier extension
+  */
+  // Prettier extension requires a config file to work
+  // it just can't apply default rules because there's no config file
+  "prettier.requireConfig": true,
+  // Point out the path where our Prettier config file lives
+  // see the path? it's not a relative, think of it as starting from the project
+  // root, rather than from .vscode directory, where this JSON file lives.
+  "prettier.configPath": "./config/code-quality/prettier.config.js",
+
+  /**
+  * @ESLint
+  * The following options are related to ESLint extension
+  */
+
+  "eslint.options": {
+    "configFile": "./config/code-quality/.eslintrc.js"
+  },
+  "eslint.alwaysShowStatus": true,
+  "eslint.debug": true,
+}

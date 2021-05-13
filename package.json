@@ -1,0 +1,27 @@
+{
+  "name": "project-task-flows",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A project to play with react-flow-renderer for tasks management purposes",
+  "main": "src/index.js",
+  "dependencies": {
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1"
+  },
+  "devDependencies": {
+    "@testing-library/react": "^11.2.6",
+    "manage-react-app": "0.5.0",
+    "prop-types": "^15.7.2"
+  },
+  "scripts": {
+    "prepare": "manage-react-app init",
+    "start": "manage-react-app start development",
+    "start:production": "manage-react-app start production",
+    "start:qa": "manage-react-app start qa",
+    "test": "manage-react-app test",
+    "start:staging": "manage-react-app start staging",
+    "eslint-prettier-sync": "eslint-config-prettier config/code-quality/.eslintrc.js"
+  },
+  "author": "Shahzaib Khalid <hi@shahzaibkhalid.com>",
+  "license": "MIT"
+}
