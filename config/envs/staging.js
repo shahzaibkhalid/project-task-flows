@@ -1,6 +1,4 @@
 module.exports = {
-  webpack: () => ({
-    devtool: 'source-map'
-  }),
-  environment: 'staging'
+  webpack: () => ({}),
+  environment: 'staging',
 };
