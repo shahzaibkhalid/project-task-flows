@@ -1,6 +1,24 @@
-import NotMatch from 'components/NoMatch';
-import About from 'pages/About';
-import Home from 'pages/Home';
+import { lazy } from 'react';
+
+const NotMatch = lazy(() =>
+  import(
+    /* webpackChunkName: 'NotMatch' */
+    'components/NoMatch'
+  )
+);
+const About = lazy(() =>
+  import(
+    /* webpackChunkName: 'About' */
+    /* webpackPrefetch: true */
+    'pages/About'
+  )
+);
+const Home = lazy(() =>
+  import(
+    /* webpackChunkName: 'Home' */
+    'pages/Home'
+  )
+);
 
 const routes = {
   ABOUT: '/about',
