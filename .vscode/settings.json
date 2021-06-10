@@ -63,6 +63,11 @@
   "conventionalCommits.scopes": [
     "routes",
     "theme",
-    "config"
+    "config",
+    "test",
+    "home",
+    "about",
+    "error",
+    "nomatch"
   ],
 }
