@@ -1,3 +1,7 @@
 module.exports = {
-  webpack: () => ({})
-}
+  webpack: () => ({
+    devServer: {
+      historyApiFallback: true,
+    },
+  }),
+};
