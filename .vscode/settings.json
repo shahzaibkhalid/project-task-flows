@@ -60,4 +60,14 @@
   },
   "eslint.alwaysShowStatus": true,
   "eslint.debug": true,
+  "conventionalCommits.scopes": [
+    "routes",
+    "theme",
+    "config",
+    "test",
+    "home",
+    "about",
+    "error",
+    "nomatch"
+  ],
 }

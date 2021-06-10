@@ -1,11 +1,11 @@
 import { render, screen } from '__test-utils__/test-utils';
-import About from 'pages/About';
+import Home from 'pages/Home';
 
-describe('About', () => {
+describe('Home', () => {
   it('should render the main heading', () => {
-    render(<About />);
+    render(<Home />);
     expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(
-      /^This is About Page.$/
+      /^This is Home Page.$/
     );
   });
 });
