@@ -1,8 +1,11 @@
+import { render, screen } from '__test-utils__/test-utils';
 import About from 'pages/About';
-import { render } from '@testing-library/react';
 
-describe('About.test.jsx', () => {
-  test('should render', () => {
+describe('About', () => {
+  it('should render the main heading', () => {
     render(<About />);
+    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(
+      /^This is About Page.$/
+    );
   });
 });
