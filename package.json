@@ -24,6 +24,8 @@
     "start": "manage-react-app start development",
     "start:production": "manage-react-app start production",
     "start:qa": "manage-react-app start qa",
+    "build": "manage-react-app build",
+    "analyze": "manage-react-app analyze",
     "test": "manage-react-app test",
     "lint": "manage-react-app eslint",
     "start:staging": "manage-react-app start staging",
