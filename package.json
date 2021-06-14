@@ -28,6 +28,7 @@
     "analyze": "manage-react-app analyze",
     "test": "manage-react-app test",
     "lint": "manage-react-app eslint",
+    "serve": "manage-react-app serve",
     "start:staging": "manage-react-app start staging",
     "eslint-prettier-sync": "eslint-config-prettier config/code-quality/.eslintrc.js"
   },
