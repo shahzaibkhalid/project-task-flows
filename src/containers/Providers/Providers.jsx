@@ -1,5 +1,5 @@
+import { ThemeProvider } from '@theme-ui/core';
 import PropTypes from 'prop-types';
-import { ThemeProvider } from 'theme-ui';
 
 function Providers({ children }) {
   return <ThemeProvider theme={{}}>{children}</ThemeProvider>;
