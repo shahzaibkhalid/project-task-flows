@@ -19,6 +19,12 @@ const projectESLintConfig = {
      */
     require.resolve('eslint-config-prettier'),
   ],
+  rules: {
+    'react/forbid-component-props': [
+      'error',
+      { forbid: ['className', { propName: 'style', allowedFor: ['Handle'] }] },
+    ],
+  },
 };
 
 module.exports = projectESLintConfig;
