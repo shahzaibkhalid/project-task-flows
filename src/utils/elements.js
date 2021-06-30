@@ -1,19 +1,43 @@
-import { ELEMENT_NAMES, NODE_TYPES } from 'utils/constants';
+import { EDGE_TYPES, ELEMENT_CATEGORIES, NODE_TYPES } from 'utils/constants';
 
 function getElementId(idPrefix) {
   return `${idPrefix}_${Math.random()}`;
 }
 
-function createElement(id, data, position) {
-  return { data, id, position, type: NODE_TYPES.task };
+function createTaskNode(id, data, position) {
+  return {
+    data,
+    id,
+    position,
+    type: NODE_TYPES.task,
+  };
 }
 
 function getBaseEdge() {
   return {
-    id: getElementId(ELEMENT_NAMES.edge),
+    id: getElementId(ELEMENT_CATEGORIES.edge),
     source: null,
     target: null,
+    type: EDGE_TYPES.task,
   };
 }
 
-export { createElement, getElementId, getBaseEdge };
+function doesEdgeExistsBetweenNodes(elements, source, target) {
+  /**
+   * edge connection can be initiated both ways
+   * - source can be connected with target
+   * - target can be connected with source
+   */
+  return elements.some(
+    (element) =>
+      (element.source === source && element.target === target) ||
+      (element.source === target && element.target === source)
+  );
+}
+
+export {
+  createTaskNode,
+  getElementId,
+  getBaseEdge,
+  doesEdgeExistsBetweenNodes,
+};

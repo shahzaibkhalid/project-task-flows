@@ -68,6 +68,8 @@
     "home",
     "about",
     "error",
-    "nomatch"
+    "nomatch",
+    "utils",
+    "hooks"
   ],
 }
