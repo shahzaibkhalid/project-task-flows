@@ -1,4 +1,4 @@
-import { render, screen } from '__test-utils__/test-utils';
+import { render, screen } from '__test-utils__/core';
 import Error from 'components/Error';
 
 describe('Error', () => {
