@@ -1,4 +1,4 @@
-import { render, screen } from '__test-utils__/test-utils';
+import { render, screen } from '__test-utils__/core';
 import NoMatch from 'components/NoMatch';
 import { routes } from 'utils/routing';
 
