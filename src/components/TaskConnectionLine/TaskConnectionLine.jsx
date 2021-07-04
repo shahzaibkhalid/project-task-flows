@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import { memo } from 'react';
 import { getBezierPath } from 'react-flow-renderer';
 
 function TaskConnectionLine({
@@ -40,4 +41,4 @@ TaskConnectionLine.propTypes = {
   targetY: PropTypes.number.isRequired,
 };
 
-export default TaskConnectionLine;
+export default memo(TaskConnectionLine);
