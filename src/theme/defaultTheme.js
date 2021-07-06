@@ -37,6 +37,22 @@ const defaultTheme = {
     heading: 'inherit',
     monospace: 'Menlo, monospace',
   },
+  forms: {
+    taskCheckbox: {
+      color: 'highlight',
+      'input:checked ~ &': {
+        color: 'highlight',
+      },
+      'input:focus ~ &': {
+        bg: 'primary',
+        color: 'highlight',
+      },
+    },
+    taskInput: {
+      border: 'none',
+      outline: 'none',
+    },
+  },
   lineHeights: {
     body: 1.5,
     heading: 1.25,
@@ -65,6 +81,7 @@ const defaultTheme = {
       cursor: 'pointer',
     },
   },
+  radii: [5],
   sizes: {
     container: 700,
   },
