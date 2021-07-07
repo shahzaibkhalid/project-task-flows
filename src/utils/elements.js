@@ -18,6 +18,13 @@ function getBaseEdge() {
     id: getElementId(ELEMENT_CATEGORIES.edge),
     source: null,
     target: null,
+    ...getEdgeMeta(),
+  };
+}
+
+function getEdgeMeta() {
+  return {
+    arrowHeadType: 'arrowclosed',
     type: EDGE_TYPES.task,
   };
 }
@@ -39,5 +46,6 @@ export {
   createTaskNode,
   getElementId,
   getBaseEdge,
+  getEdgeMeta,
   doesEdgeExistsBetweenNodes,
 };
