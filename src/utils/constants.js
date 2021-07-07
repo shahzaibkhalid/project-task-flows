@@ -3,8 +3,7 @@ const NODE_TYPES = {
 };
 
 const EDGE_TYPES = {
-  //TODO: implement a custom edge type later if we need to.
-  task: 'default',
+  task: 'taskEdge',
 };
 
 const ELEMENT_CATEGORIES = {
