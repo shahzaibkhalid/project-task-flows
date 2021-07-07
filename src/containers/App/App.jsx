@@ -8,9 +8,9 @@ import globalStyles from 'theme/globalStyles';
 function App() {
   return (
     <StrictMode>
-      <Global styles={globalStyles} />
       <GenericErrorBoundary>
         <Providers>
+          <Global styles={globalStyles} />
           <Routes />
         </Providers>
       </GenericErrorBoundary>
