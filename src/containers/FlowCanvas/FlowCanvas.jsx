@@ -1,3 +1,7 @@
+//TODO: attach the double tap directly on the Box in the TaskNode and remove from TaskNode
+// TODO: remove event from useDoubleTap and use a plain function as a prop to ReactFlow
+// TODO: show custom control button on node drag start at end
+
 import { Box, Container } from '@theme-ui/components';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import ReactFlow, {
@@ -16,9 +20,9 @@ import useDoubleTap from 'hooks/useDoubleTap';
 import { useElements } from 'state/elementsContext';
 import { ELEMENT_CATEGORIES } from 'utils/constants';
 import {
+  createTaskEdge,
   createTaskNode,
   doesEdgeExistsBetweenNodes,
-  getBaseEdge,
   getElementId,
 } from 'utils/elements';
 
@@ -26,9 +30,10 @@ function FlowCanvas() {
   const [elements, setElements] = useElements();
   const reactFlowWrapper = useRef(null);
   const [reactFlowInstance, setReactFlowInstance] = useState(null);
-  const [tempEdge, setTempEdge] = useState(getBaseEdge());
+  const [tempEdge, setTempEdge] = useState(createTaskEdge());
+
   const onPaneDoubleTap = useDoubleTap((event) => {
-    onAddElements(event);
+    onAddNode(event);
   });
 
   /**
@@ -56,13 +61,13 @@ function FlowCanvas() {
   const updateEdgeWithSourceNode = useCallback((node) => {
     setTempEdge((preValue) => ({ ...preValue, source: node.id }));
     // if no target node is chosen for 2 seconds, source node selection is cleared
-    setTimeout(() => setTempEdge(getBaseEdge()), 2000);
+    setTimeout(() => setTempEdge(createTaskEdge()), 2000);
   }, []);
 
   const updateEdgeWithTargetNode = useCallback(
     (node) => {
       onConnectElements({ ...tempEdge, target: node.id });
-      setTempEdge(getBaseEdge());
+      setTempEdge(createTaskEdge());
     },
     [tempEdge, onConnectElements]
   );
@@ -114,20 +119,25 @@ function FlowCanvas() {
     []
   );
 
-  const onAddElements = useCallback(
+  const onAddNode = useCallback(
     (event) => {
       const reactFlowBounds = reactFlowWrapper.current.getBoundingClientRect();
       const position = reactFlowInstance.project({
         x: event.clientX - reactFlowBounds.left,
         y: event.clientY - reactFlowBounds.top,
       });
+      const id = getElementId(ELEMENT_CATEGORIES.node);
       setElements((preValue) => [
         ...preValue,
-        createTaskNode(
-          getElementId(ELEMENT_CATEGORIES.node),
-          { label: 'some' },
-          position
-        ),
+        createTaskNode({
+          // `data` object passed to `TaskNode` component
+          data: {
+            id,
+            taskText: '',
+          },
+          id,
+          position,
+        }),
       ]);
     },
     [reactFlowInstance, setElements]
@@ -136,7 +146,7 @@ function FlowCanvas() {
   const onConnectElements = useCallback(
     (params) =>
       setElements((preValue) =>
-        addEdge({ ...getBaseEdge(), ...params }, preValue)
+        addEdge({ ...createTaskEdge(), ...params }, preValue)
       ),
     [setElements]
   );
