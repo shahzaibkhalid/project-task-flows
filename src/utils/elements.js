@@ -4,7 +4,8 @@ function getElementId(idPrefix) {
   return `${idPrefix}_${Math.random()}`;
 }
 
-function createTaskNode(id, data, position) {
+function createTaskNode(param) {
+  const { id, data, position } = param;
   return {
     data,
     id,
@@ -13,7 +14,7 @@ function createTaskNode(id, data, position) {
   };
 }
 
-function getBaseEdge() {
+function createTaskEdge() {
   return {
     id: getElementId(ELEMENT_CATEGORIES.edge),
     source: null,
@@ -45,7 +46,7 @@ function doesEdgeExistsBetweenNodes(elements, source, target) {
 export {
   createTaskNode,
   getElementId,
-  getBaseEdge,
+  createTaskEdge,
   getEdgeMeta,
   doesEdgeExistsBetweenNodes,
 };
