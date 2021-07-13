@@ -11,7 +11,7 @@
     "react": "^17.0.1",
     "react-bootstrap-icons": "^1.5.0",
     "react-dom": "^17.0.1",
-    "react-flow-renderer": "^9.5.4",
+    "react-flow-renderer": "^9.6.3",
     "react-query": "^3.16.0",
     "react-router-dom": "^5.2.0"
   },
@@ -30,6 +30,7 @@
     "test": "manage-react-app test",
     "lint": "manage-react-app eslint",
     "serve": "manage-react-app serve",
+    "deploy": "surge ./dist awake-milk.surge.sh",
     "start:staging": "manage-react-app start staging",
     "eslint-prettier-sync": "eslint-config-prettier config/code-quality/.eslintrc.js"
   },
