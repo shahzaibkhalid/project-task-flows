@@ -5,11 +5,8 @@ function getElementId(idPrefix) {
 }
 
 function createTaskNode(param) {
-  const { id, data, position } = param;
   return {
-    data,
-    id,
-    position,
+    ...param,
     type: NODE_TYPES.task,
   };
 }
