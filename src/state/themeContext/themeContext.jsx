@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { createContext, useContext, useMemo, useState } from 'react';
 
-const themeValues = {
+const themeValue = {
   dark: 'dark',
   light: 'light',
 };
@@ -13,7 +13,7 @@ function useTheme() {
 
   if (!context) {
     throw new Error(
-      'Error: useTheme custom hook must be used within ThemeContext!'
+      'Error: useTheme custom hook must be used within ThemeContext.'
     );
   }
 
@@ -21,7 +21,7 @@ function useTheme() {
 }
 
 function ThemeProvider({ children }) {
-  const [theme, setTheme] = useState(themeValues.dark);
+  const [theme, setTheme] = useState(themeValue.dark);
 
   const value = useMemo(() => [theme, setTheme], [theme]);
 
@@ -38,4 +38,4 @@ ThemeProvider.propTypes = {
   children: PropTypes.element,
 };
 
-export { themeValues, useTheme, ThemeProvider };
+export { themeValue, useTheme, ThemeProvider };
