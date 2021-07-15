@@ -19,13 +19,13 @@ import TaskNode from 'components/TaskNode';
 import useDoubleTap from 'hooks/useDoubleTap';
 import { useElements } from 'state/elementsContext';
 import { ELEMENT_CATEGORIES } from 'utils/constants';
+import isTouchDevice from 'utils/device';
 import {
   createTaskEdge,
   createTaskNode,
   doesEdgeExistsBetweenNodes,
   getElementId,
 } from 'utils/elements';
-import isTouchDevice from 'utils/misc';
 
 function FlowCanvas() {
   const [elements, setElements] = useElements();
