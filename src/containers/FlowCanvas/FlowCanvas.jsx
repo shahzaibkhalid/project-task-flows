@@ -19,6 +19,7 @@ import TaskNode from 'components/TaskNode';
 import useDoubleTap from 'hooks/useDoubleTap';
 import { useElements } from 'state/elementsContext';
 import { ELEMENT_CATEGORIES } from 'utils/constants';
+import isTouchDevice from 'utils/device';
 import {
   createTaskEdge,
   createTaskNode,
@@ -133,7 +134,6 @@ function FlowCanvas() {
           // `data` object passed to `TaskNode` component
           data: {
             id,
-            taskText: '',
           },
           id,
           position,
@@ -177,7 +177,7 @@ function FlowCanvas() {
           edgeTypes={{ taskEdge: TaskEdge }}
           zoomOnScroll={false}
           zoomOnDoubleClick={false}
-          paneMoveable={false}
+          paneMoveable={!isTouchDevice()}
           onElementClick={onElementDoubleTap}
           connectionLineComponent={TaskConnectionLine}
           snapToGrid
