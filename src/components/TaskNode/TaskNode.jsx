@@ -3,8 +3,10 @@ import PropTypes from 'prop-types';
 import { memo } from 'react';
 import { Handle } from 'react-flow-renderer';
 
-function TaskNode({ data }) {
-  const { isDoneChecked, taskText, onChangeDone, onChangeTaskText } = data;
+function TaskNode({ data, id }) {
+  function onNodeStateChange(event) {
+    // data.onNodeStateChange(id, stateKey, event.target.checked);
+  }
   return (
     <Box
       sx={{
@@ -18,20 +20,23 @@ function TaskNode({ data }) {
       <Handle type='target' position='top' />
       <Flex sx={{ alignItems: 'center' }}>
         <Label sx={{ width: '10%' }}>
+          <input type='text' className='nodrag' />
           <Checkbox
-            onChange={onChangeDone}
-            checked={isDoneChecked}
+            onChange={onNodeStateChange}
+            checked={data.isDoneChecked}
             variant='taskCheckbox'
+            // eslint-disable-next-line react/forbid-component-props
+            className='nodrag'
           />
         </Label>
-        <Label>
-          <Input
-            type='text'
-            value={taskText}
-            onChange={onChangeTaskText}
-            variant='taskInput'
-          />
-        </Label>
+        <Input
+          type='text'
+          value={data.taskText}
+          onChange={onNodeStateChange}
+          variant='taskInput'
+          // eslint-disable-next-line react/forbid-component-props
+          className='nodrag'
+        />
       </Flex>
       <Handle type='source' position='bottom' />
     </Box>
@@ -41,10 +46,10 @@ function TaskNode({ data }) {
 TaskNode.propTypes = {
   data: PropTypes.shape({
     isDoneChecked: PropTypes.bool.isRequired,
-    onChangeDone: PropTypes.func.isRequired,
-    onChangeTaskText: PropTypes.func.isRequired,
+    onNodeStateChange: PropTypes.func.isRequired,
     taskText: PropTypes.string.isRequired,
   }).isRequired,
+  id: PropTypes.string.isRequired,
 };
 
 export default memo(TaskNode);
