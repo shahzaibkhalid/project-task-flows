@@ -2,10 +2,24 @@ import { Box, Checkbox, Flex, Input, Label } from '@theme-ui/components';
 import PropTypes from 'prop-types';
 import { memo } from 'react';
 import { Handle } from 'react-flow-renderer';
+import { TASK_NODE_ELEMENT_NAMES } from 'utils/constants';
 
 function TaskNode({ data, id }) {
   function onNodeStateChange(event) {
-    // data.onNodeStateChange(id, stateKey, event.target.checked);
+    let stateKey, stateValue;
+    switch (event.target.name) {
+      case TASK_NODE_ELEMENT_NAMES.isDoneChecked:
+        stateKey = event.target.name;
+        stateValue = event.target.checked;
+        break;
+      case TASK_NODE_ELEMENT_NAMES.taskText:
+        stateKey = event.target.name;
+        stateValue = event.target.value;
+        break;
+      default:
+        throw new Error('Unable to identify Task Node element.');
+    }
+    data.onNodeStateChange(id, stateKey, stateValue);
   }
   return (
     <Box
@@ -20,11 +34,11 @@ function TaskNode({ data, id }) {
       <Handle type='target' position='top' />
       <Flex sx={{ alignItems: 'center' }}>
         <Label sx={{ width: '10%' }}>
-          <input type='text' className='nodrag' />
           <Checkbox
             onChange={onNodeStateChange}
             checked={data.isDoneChecked}
             variant='taskCheckbox'
+            name={TASK_NODE_ELEMENT_NAMES.isDoneChecked}
             // eslint-disable-next-line react/forbid-component-props
             className='nodrag'
           />
@@ -34,6 +48,7 @@ function TaskNode({ data, id }) {
           value={data.taskText}
           onChange={onNodeStateChange}
           variant='taskInput'
+          name={TASK_NODE_ELEMENT_NAMES.taskText}
           // eslint-disable-next-line react/forbid-component-props
           className='nodrag'
         />
