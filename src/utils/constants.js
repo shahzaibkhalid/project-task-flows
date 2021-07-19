@@ -11,4 +11,9 @@ const ELEMENT_CATEGORIES = {
   node: 'node',
 };
 
-export { NODE_TYPES, EDGE_TYPES, ELEMENT_CATEGORIES };
+const TASK_NODE_ELEMENT_NAMES = {
+  isDoneChecked: 'isDoneChecked',
+  taskText: 'taskText',
+};
+
+export { NODE_TYPES, EDGE_TYPES, ELEMENT_CATEGORIES, TASK_NODE_ELEMENT_NAMES };
