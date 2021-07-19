@@ -120,6 +120,26 @@ function FlowCanvas() {
     []
   );
 
+  const onNodeStateChange = useCallback(
+    (nodeId, stateKey, stateValue) => {
+      setElements((els) =>
+        els.map((el) => {
+          if (isNode(el) && el.id === nodeId) {
+            return {
+              ...el,
+              data: {
+                ...el.data,
+                [stateKey]: stateValue,
+              },
+            };
+          }
+          return el;
+        })
+      );
+    },
+    [setElements]
+  );
+
   const onAddNode = useCallback(
     (event) => {
       const reactFlowBounds = reactFlowWrapper.current.getBoundingClientRect();
@@ -133,14 +153,14 @@ function FlowCanvas() {
         createTaskNode({
           // `data` object passed to `TaskNode` component
           data: {
-            id,
+            onNodeStateChange,
           },
           id,
           position,
         }),
       ]);
     },
-    [reactFlowInstance, setElements]
+    [reactFlowInstance, setElements, onNodeStateChange]
   );
 
   const onConnectElements = useCallback(
