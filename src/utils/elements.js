@@ -1,4 +1,9 @@
-import { EDGE_TYPES, ELEMENT_CATEGORIES, NODE_TYPES } from 'utils/constants';
+import {
+  EDGE_TYPES,
+  ELEMENT_CATEGORIES,
+  NODE_TYPES,
+  TASK_NODE_ELEMENT_NAMES,
+} from 'utils/constants';
 
 function getElementId(idPrefix) {
   return `${idPrefix}_${Math.random()}`;
@@ -7,7 +12,18 @@ function getElementId(idPrefix) {
 function createTaskNode(param) {
   return {
     ...param,
+    data: {
+      ...param.data,
+      ...getNodeMeta(),
+    },
     type: NODE_TYPES.task,
+  };
+}
+
+function getNodeMeta() {
+  return {
+    [TASK_NODE_ELEMENT_NAMES.isDoneChecked]: false,
+    [TASK_NODE_ELEMENT_NAMES.taskText]: '',
   };
 }
 
