@@ -1,4 +1,4 @@
-import { Box, Checkbox, Flex, Input, Label } from '@theme-ui/components';
+import { Box, Checkbox, Flex, Input, Label, Text } from '@theme-ui/components';
 import PropTypes from 'prop-types';
 import { memo } from 'react';
 import { Handle } from 'react-flow-renderer';
@@ -6,14 +6,13 @@ import { TASK_NODE_ELEMENT_NAMES } from 'utils/constants';
 
 function TaskNode({ data, id }) {
   function onNodeStateChange(event) {
-    let stateKey, stateValue;
+    let stateKey = event.target.name,
+      stateValue;
     switch (event.target.name) {
       case TASK_NODE_ELEMENT_NAMES.isDoneChecked:
-        stateKey = event.target.name;
         stateValue = event.target.checked;
         break;
       case TASK_NODE_ELEMENT_NAMES.taskText:
-        stateKey = event.target.name;
         stateValue = event.target.value;
         break;
       default:
@@ -24,7 +23,7 @@ function TaskNode({ data, id }) {
   return (
     <Box
       sx={{
-        bg: 'primary',
+        bg: 'purple',
         borderRadius: 0,
         color: 'background',
         cursor: 'pointer',
@@ -43,12 +42,18 @@ function TaskNode({ data, id }) {
             className='nodrag'
           />
         </Label>
+        <Text as='h2' variant='taskHeading'>
+          {data.taskText}
+        </Text>
+      </Flex>
+      <Flex>
         <Input
           type='text'
           value={data.taskText}
           onChange={onNodeStateChange}
           variant='taskInput'
           name={TASK_NODE_ELEMENT_NAMES.taskText}
+          placeholder='Add task description...'
           // eslint-disable-next-line react/forbid-component-props
           className='nodrag'
         />
