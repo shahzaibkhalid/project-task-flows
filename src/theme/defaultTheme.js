@@ -2,29 +2,25 @@ const defaultTheme = {
   breakpoints: ['640px', '768px', '1024px', '1280px'],
   buttons: {
     disabled: {
-      color: 'background',
+      color: 'black',
       cursor: 'not-allowed',
     },
     primary: {
-      bg: 'primary',
-      color: 'background',
+      bg: 'pink',
+      color: 'black',
       cursor: 'pointer',
     },
     secondary: {
-      bg: 'secondary',
-      color: 'background',
+      bg: 'purple',
+      color: 'black',
       cursor: 'pointer',
     },
   },
   colors: {
-    background: 'hsl(230, 25%, 18%)',
-    gray: 'hsl(210, 50%, 60%)',
+    black: 'hsl(230, 25%, 18%)',
     highlight: 'hsl(260, 20%, 40%)',
-    muted: 'hsla(230, 20%, 0%, 20%)',
-    primary: 'hsl(260, 100%, 80%)',
-    purple: 'hsl(290, 100%, 80%)',
-    secondary: 'hsl(290, 100%, 80%)',
-    text: 'hsl(210, 50%, 96%)',
+    pink: 'hsl(290, 100%, 80%)',
+    purple: 'hsl(260, 100%, 80%)',
   },
   fontSizes: [12, 14, 16, 20, 24, 32, 48, 64, 72],
   fontWeights: {
@@ -34,7 +30,7 @@ const defaultTheme = {
   },
   fonts: {
     body: 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif',
-    heading: 'inherit',
+    heading: 'Ubuntu, sans-serif',
     monospace: 'Menlo, monospace',
   },
   forms: {
@@ -44,13 +40,16 @@ const defaultTheme = {
         color: 'highlight',
       },
       'input:focus ~ &': {
-        bg: 'primary',
+        bg: 'purple',
         color: 'highlight',
       },
     },
     taskInput: {
       border: 'none',
+      color: 'black',
       outline: 'none',
+      pl: 1,
+      pr: 1,
     },
   },
   lineHeights: {
@@ -60,24 +59,24 @@ const defaultTheme = {
   links: {
     bold: {
       '&:hover': {
-        color: 'secondary',
+        color: 'pink',
       },
       cursor: 'pointer',
       fontWeight: 'bold',
     },
-    primary: {
+    purple: {
       '&:hover': {
-        color: 'secondary',
+        color: 'pink',
       },
-      color: 'primary',
+      color: 'purple',
       cursor: 'pointer',
     },
     underline: {
       '&:hover': {
-        color: 'secondary',
+        color: 'pink',
       },
       borderBottom: '2px solid',
-      color: 'primary',
+      color: 'purple',
       cursor: 'pointer',
     },
   },
@@ -86,18 +85,12 @@ const defaultTheme = {
     container: 700,
   },
   text: {
-    display: {
-      fontSize: [5, 6],
-      fontWeight: 'display',
-      letterSpacing: '-0.03em',
-      mt: 3,
-      variant: 'text.heading',
-    },
-    heading: {
-      color: 'primary',
-      fontFamily: 'heading',
-      fontWeight: 'heading',
-      lineHeight: 'heading',
+    taskHeading: {
+      color: 'black',
+      fontFamily: 'Ubuntu, sans-serif',
+      fontSize: 2,
+      ml: 2,
+      mr: 2,
     },
   },
 };
