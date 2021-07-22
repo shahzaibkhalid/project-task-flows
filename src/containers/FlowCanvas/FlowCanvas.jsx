@@ -84,7 +84,21 @@ function FlowCanvas() {
     ]
   );
 
-  const onNodeSingleTap = useCallback(() => {}, []);
+  const onNodeSingleTap = useCallback(
+    (node) => {
+      if (
+        elements.find((el) => el.id === node.id).data.extendedNodeId === node.id
+      ) {
+        // TODO: extract this logic to a separate function coz we need to reset when we click anywhere else
+        // TODO: store this extendedNodeId in a separate identifier like other data identifiers
+        // TODO: node must move back to its original state when clicked somewhere else
+        onNodeStateChange('extendedNodeId', '');
+      } else {
+        onNodeStateChange('extendedNodeId', node.id);
+      }
+    },
+    [elements, onNodeStateChange]
+  );
   const onEdgeSingleTap = useCallback(() => {}, []);
   const onEdgeDoubleTap = useCallback(() => {}, []);
 
@@ -116,11 +130,31 @@ function FlowCanvas() {
     []
   );
 
-  const onNodeStateChange = useCallback(
+  const onNodeStateChangeById = useCallback(
     (nodeId, stateKey, stateValue) => {
       setElements((els) =>
         els.map((el) => {
           if (isNode(el) && el.id === nodeId) {
+            return {
+              ...el,
+              data: {
+                ...el.data,
+                [stateKey]: stateValue,
+              },
+            };
+          }
+          return el;
+        })
+      );
+    },
+    [setElements]
+  );
+
+  const onNodeStateChange = useCallback(
+    (stateKey, stateValue) => {
+      setElements((els) =>
+        els.map((el) => {
+          if (isNode(el)) {
             return {
               ...el,
               data: {
@@ -149,14 +183,14 @@ function FlowCanvas() {
         createTaskNode({
           // `data` object passed to `TaskNode` component
           data: {
-            onNodeStateChange,
+            onNodeStateChangeById,
           },
           id,
           position,
         }),
       ]);
     },
-    [reactFlowInstance, setElements, onNodeStateChange]
+    [reactFlowInstance, setElements, onNodeStateChangeById]
   );
 
   const onConnectElements = useCallback(
