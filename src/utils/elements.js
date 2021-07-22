@@ -24,6 +24,8 @@ function getNodeMeta() {
   return {
     [TASK_NODE_ELEMENT_NAMES.isDoneChecked]: false,
     [TASK_NODE_ELEMENT_NAMES.taskText]: '',
+    //TODO: add it to a separate identifier
+    extendedNodeId: '',
   };
 }
 
