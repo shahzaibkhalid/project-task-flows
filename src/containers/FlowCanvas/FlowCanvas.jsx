@@ -1,7 +1,3 @@
-//TODO: attach the double tap directly on the Box in the TaskNode and remove from TaskNode
-// TODO: remove event from useDoubleTap and use a plain function as a prop to ReactFlow
-// TODO: show custom control button on node drag start at end
-
 import { Box, Container } from '@theme-ui/components';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import ReactFlow, {
