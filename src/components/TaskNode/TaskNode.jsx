@@ -5,7 +5,9 @@ import { Handle } from 'react-flow-renderer';
 import { TASK_NODE_ELEMENT_NAMES } from 'utils/constants';
 
 function TaskNode({ data, id }) {
-  function onNodeStateChange(event) {
+  //TODO: remove this todo and get along with this data.
+  console.log('isOpen: ', data.extendedNodeId === id, id);
+  function onNodeStateChangeById(event) {
     let stateKey = event.target.name,
       stateValue;
     switch (event.target.name) {
@@ -18,7 +20,7 @@ function TaskNode({ data, id }) {
       default:
         throw new Error('Unable to identify Task Node element.');
     }
-    data.onNodeStateChange(id, stateKey, stateValue);
+    data.onNodeStateChangeById(id, stateKey, stateValue);
   }
   return (
     <Box
@@ -34,7 +36,7 @@ function TaskNode({ data, id }) {
       <Flex sx={{ alignItems: 'center' }}>
         <Label sx={{ width: '10%' }}>
           <Checkbox
-            onChange={onNodeStateChange}
+            onChange={onNodeStateChangeById}
             checked={data.isDoneChecked}
             variant='taskCheckbox'
             name={TASK_NODE_ELEMENT_NAMES.isDoneChecked}
@@ -50,7 +52,7 @@ function TaskNode({ data, id }) {
         <Input
           type='text'
           value={data.taskText}
-          onChange={onNodeStateChange}
+          onChange={onNodeStateChangeById}
           variant='taskInput'
           name={TASK_NODE_ELEMENT_NAMES.taskText}
           placeholder='Add task description...'
@@ -65,8 +67,9 @@ function TaskNode({ data, id }) {
 
 TaskNode.propTypes = {
   data: PropTypes.shape({
+    extendedNodeId: PropTypes.string.isRequired,
     isDoneChecked: PropTypes.bool.isRequired,
-    onNodeStateChange: PropTypes.func.isRequired,
+    onNodeStateChangeById: PropTypes.func.isRequired,
     taskText: PropTypes.string.isRequired,
   }).isRequired,
   id: PropTypes.string.isRequired,
