@@ -86,6 +86,8 @@ function FlowCanvas() {
 
   const onNodeSingleTap = useCallback(
     (node) => {
+      // TODO: technically, this should be extracted into a function as close extended node
+      // and the other condition is when clicked elsewhere
       if (
         elements.find((el) => el.id === node.id).data.extendedNodeId === node.id
       ) {
