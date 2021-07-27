@@ -5,6 +5,7 @@
   "description": "A project to play with react-flow-renderer for tasks management purposes",
   "main": "src/index.jsx",
   "dependencies": {
+    "@mattjennings/react-modal": "^1.0.2",
     "@theme-ui/components": "^0.10.0",
     "@theme-ui/core": "^0.10.0",
     "framer-motion": "^4.1.17",
