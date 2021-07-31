@@ -1,7 +1,3 @@
-//TODO: attach the double tap directly on the Box in the TaskNode and remove from TaskNode
-// TODO: remove event from useDoubleTap and use a plain function as a prop to ReactFlow
-// TODO: show custom control button on node drag start at end
-
 import { Box, Container } from '@theme-ui/components';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import ReactFlow, {
@@ -88,7 +84,23 @@ function FlowCanvas() {
     ]
   );
 
-  const onNodeSingleTap = useCallback(() => {}, []);
+  const onNodeSingleTap = useCallback(
+    (node) => {
+      // TODO: technically, this should be extracted into a function as close extended node
+      // and the other condition is when clicked elsewhere
+      if (
+        elements.find((el) => el.id === node.id).data.extendedNodeId === node.id
+      ) {
+        // TODO: extract this logic to a separate function coz we need to reset when we click anywhere else
+        // TODO: store this extendedNodeId in a separate identifier like other data identifiers
+        // TODO: node must move back to its original state when clicked somewhere else
+        onNodeStateChange('extendedNodeId', '');
+      } else {
+        onNodeStateChange('extendedNodeId', node.id);
+      }
+    },
+    [elements, onNodeStateChange]
+  );
   const onEdgeSingleTap = useCallback(() => {}, []);
   const onEdgeDoubleTap = useCallback(() => {}, []);
 
@@ -120,6 +132,46 @@ function FlowCanvas() {
     []
   );
 
+  const onNodeStateChangeById = useCallback(
+    (nodeId, stateKey, stateValue) => {
+      setElements((els) =>
+        els.map((el) => {
+          if (isNode(el) && el.id === nodeId) {
+            return {
+              ...el,
+              data: {
+                ...el.data,
+                [stateKey]: stateValue,
+              },
+            };
+          }
+          return el;
+        })
+      );
+    },
+    [setElements]
+  );
+
+  const onNodeStateChange = useCallback(
+    (stateKey, stateValue) => {
+      setElements((els) =>
+        els.map((el) => {
+          if (isNode(el)) {
+            return {
+              ...el,
+              data: {
+                ...el.data,
+                [stateKey]: stateValue,
+              },
+            };
+          }
+          return el;
+        })
+      );
+    },
+    [setElements]
+  );
+
   const onAddNode = useCallback(
     (event) => {
       const reactFlowBounds = reactFlowWrapper.current.getBoundingClientRect();
@@ -133,14 +185,14 @@ function FlowCanvas() {
         createTaskNode({
           // `data` object passed to `TaskNode` component
           data: {
-            id,
+            onNodeStateChangeById,
           },
           id,
           position,
         }),
       ]);
     },
-    [reactFlowInstance, setElements]
+    [reactFlowInstance, setElements, onNodeStateChangeById]
   );
 
   const onConnectElements = useCallback(

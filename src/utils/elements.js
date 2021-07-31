@@ -1,4 +1,9 @@
-import { EDGE_TYPES, ELEMENT_CATEGORIES, NODE_TYPES } from 'utils/constants';
+import {
+  EDGE_TYPES,
+  ELEMENT_CATEGORIES,
+  NODE_TYPES,
+  TASK_NODE_ELEMENT_NAMES,
+} from 'utils/constants';
 
 function getElementId(idPrefix) {
   return `${idPrefix}_${Math.random()}`;
@@ -7,7 +12,18 @@ function getElementId(idPrefix) {
 function createTaskNode(param) {
   return {
     ...param,
+    data: {
+      ...param.data,
+      ...getNodeMeta(),
+    },
     type: NODE_TYPES.task,
+  };
+}
+
+function getNodeMeta() {
+  return {
+    [TASK_NODE_ELEMENT_NAMES.isDoneChecked]: false,
+    [TASK_NODE_ELEMENT_NAMES.taskText]: '',
   };
 }
 
@@ -40,10 +56,27 @@ function doesEdgeExistsBetweenNodes(elements, source, target) {
   );
 }
 
+function extractStateKeyAndValueFromEvent(event) {
+  let stateKey = event.target.name,
+    stateValue;
+  switch (event.target.name) {
+    case TASK_NODE_ELEMENT_NAMES.isDoneChecked:
+      stateValue = event.target.checked;
+      break;
+    case TASK_NODE_ELEMENT_NAMES.taskText:
+      stateValue = event.target.value;
+      break;
+    default:
+      throw new Error('Unable to identify Task Node element.');
+  }
+  return [stateKey, stateValue];
+}
+
 export {
   createTaskNode,
   getElementId,
   createTaskEdge,
   getEdgeMeta,
   doesEdgeExistsBetweenNodes,
+  extractStateKeyAndValueFromEvent,
 };

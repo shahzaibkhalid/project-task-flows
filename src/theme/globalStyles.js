@@ -3,7 +3,7 @@ import { css } from '@emotion/react';
 const globalStyles = (theme) =>
   css({
     body: {
-      backgroundColor: theme.colors.background,
+      backgroundColor: theme.colors.black,
       margin: 0,
       padding: 0,
     },
