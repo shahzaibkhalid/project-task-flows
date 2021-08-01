@@ -1,7 +1,12 @@
 import PropTypes from 'prop-types';
 import { createContext, useContext, useMemo, useState } from 'react';
 
-const elementsValue = [];
+const elementsValue = [
+  {
+    selectedNodeId: '',
+    type: 'config',
+  },
+];
 
 const ElementsContext = createContext();
 
