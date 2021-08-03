@@ -3,7 +3,10 @@ import { createContext, useContext, useMemo, useState } from 'react';
 
 const elementsValue = [
   {
-    selectedNodeId: '',
+    data: {
+      selectedNodeId: '',
+    },
+    isHidden: true,
     type: 'config',
   },
 ];
