@@ -13,7 +13,16 @@ const ELEMENT_CATEGORIES = {
 
 const TASK_NODE_ELEMENT_NAMES = {
   isDoneChecked: 'isDoneChecked',
+  selectedNode: 'selectedNode',
   taskText: 'taskText',
 };
 
-export { NODE_TYPES, EDGE_TYPES, ELEMENT_CATEGORIES, TASK_NODE_ELEMENT_NAMES };
+const CONFIG_ID = 'config';
+
+export {
+  NODE_TYPES,
+  EDGE_TYPES,
+  ELEMENT_CATEGORIES,
+  TASK_NODE_ELEMENT_NAMES,
+  CONFIG_ID,
+};
