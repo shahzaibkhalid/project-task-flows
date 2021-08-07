@@ -1,13 +1,16 @@
 import PropTypes from 'prop-types';
 import { createContext, useContext, useMemo, useState } from 'react';
+import { CONFIG_ID } from 'utils/constants';
 
 const elementsValue = [
   {
     data: {
-      selectedNodeId: '',
+      selectedNode: '',
     },
+    id: CONFIG_ID,
     isHidden: true,
-    type: 'config',
+    position: { x: 0, y: 0 },
+    type: 'default',
   },
 ];
 

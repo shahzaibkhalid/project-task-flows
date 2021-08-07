@@ -1,27 +1,22 @@
 import { Box, Checkbox, Flex, Input, Label, Text } from '@theme-ui/components';
+import { motion } from 'framer-motion';
 import PropTypes from 'prop-types';
-import { memo } from 'react';
+import { memo, useCallback } from 'react';
 import { Handle } from 'react-flow-renderer';
+import useConfig from 'hooks/useConfig';
 import { TASK_NODE_ELEMENT_NAMES } from 'utils/constants';
+import { extractStateKeyAndValueFromEvent } from 'utils/elements';
 
 function TaskNode({ data, id }) {
-  //TODO: remove this todo and get along with this data.
-  console.log('isOpen: ', data.extendedNodeId === id, id);
-  function onNodeStateChangeById(event) {
-    let stateKey = event.target.name,
-      stateValue;
-    switch (event.target.name) {
-      case TASK_NODE_ELEMENT_NAMES.isDoneChecked:
-        stateValue = event.target.checked;
-        break;
-      case TASK_NODE_ELEMENT_NAMES.taskText:
-        stateValue = event.target.value;
-        break;
-      default:
-        throw new Error('Unable to identify Task Node element.');
-    }
-    data.onNodeStateChangeById(id, stateKey, stateValue);
-  }
+  const config = useConfig();
+  const onChange = useCallback(
+    (event) => {
+      const [stateKey, stateValue] = extractStateKeyAndValueFromEvent(event);
+      data.onNodeStateChangeById(stateKey, stateValue, id);
+    },
+    [data, id]
+  );
+  const isOpen = config.data.selectedNode === id;
   return (
     <Box
       sx={{
@@ -36,7 +31,7 @@ function TaskNode({ data, id }) {
       <Flex sx={{ alignItems: 'center' }}>
         <Label sx={{ width: '10%' }}>
           <Checkbox
-            onChange={onNodeStateChangeById}
+            onChange={onChange}
             checked={data.isDoneChecked}
             variant='taskCheckbox'
             name={TASK_NODE_ELEMENT_NAMES.isDoneChecked}
@@ -49,16 +44,26 @@ function TaskNode({ data, id }) {
         </Text>
       </Flex>
       <Flex>
-        <Input
-          type='text'
-          value={data.taskText}
-          onChange={onNodeStateChangeById}
-          variant='taskInput'
-          name={TASK_NODE_ELEMENT_NAMES.taskText}
-          placeholder='Add task description...'
-          // eslint-disable-next-line react/forbid-component-props
-          className='nodrag'
-        />
+        <motion.div
+          initial='collapsed'
+          animate={isOpen ? 'open' : 'collapsed'}
+          variants={{
+            collapsed: { height: 0, opacity: 0, visibility: 'hidden' },
+            open: { height: 'auto', opacity: 1, visibility: 'visible' },
+          }}
+          transition={{ duration: 0.8, ease: [0.04, 0.62, 0.23, 0.98] }}
+        >
+          <Input
+            type='text'
+            value={data.taskText}
+            onChange={onChange}
+            variant='taskInput'
+            name={TASK_NODE_ELEMENT_NAMES.taskText}
+            placeholder="What's up?"
+            // eslint-disable-next-line react/forbid-component-props
+            className='nodrag'
+          />
+        </motion.div>
       </Flex>
       <Handle type='source' position='bottom' />
     </Box>
@@ -67,7 +72,6 @@ function TaskNode({ data, id }) {
 
 TaskNode.propTypes = {
   data: PropTypes.shape({
-    extendedNodeId: PropTypes.string.isRequired,
     isDoneChecked: PropTypes.bool.isRequired,
     onNodeStateChangeById: PropTypes.func.isRequired,
     taskText: PropTypes.string.isRequired,

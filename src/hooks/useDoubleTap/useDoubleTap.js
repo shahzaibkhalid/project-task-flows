@@ -1,6 +1,6 @@
 import { useCallback, useRef } from 'react';
 
-function useDoubleTap(callback, threshold = 300, onSingleTap) {
+function useDoubleTap(callback, onSingleTap, threshold = 300) {
   const timer = useRef(null);
   const handler = useCallback(
     (event, ...args) => {

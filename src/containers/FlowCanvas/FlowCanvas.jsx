@@ -12,9 +12,14 @@ import ReactFlow, {
 import TaskConnectionLine from 'components/TaskConnectionLine';
 import TaskEdge from 'components/TaskEdge';
 import TaskNode from 'components/TaskNode';
+import useConfig from 'hooks/useConfig';
 import useDoubleTap from 'hooks/useDoubleTap';
 import { useElements } from 'state/elementsContext';
-import { ELEMENT_CATEGORIES } from 'utils/constants';
+import {
+  CONFIG_ID,
+  ELEMENT_CATEGORIES,
+  TASK_NODE_ELEMENT_NAMES,
+} from 'utils/constants';
 import isTouchDevice from 'utils/device';
 import {
   createTaskEdge,
@@ -25,13 +30,47 @@ import {
 
 function FlowCanvas() {
   const [elements, setElements] = useElements();
+  const config = useConfig();
   const reactFlowWrapper = useRef(null);
   const [reactFlowInstance, setReactFlowInstance] = useState(null);
   const [tempEdge, setTempEdge] = useState(createTaskEdge());
+  const collapseNode = useCallback(() => {
+    onNodeStateChangeById(TASK_NODE_ELEMENT_NAMES.selectedNode, '', CONFIG_ID);
+  }, [onNodeStateChangeById]);
+  const onPaneSingleTap = useCallback(() => {
+    collapseNode();
+  }, [collapseNode]);
 
-  const onPaneDoubleTap = useDoubleTap((event) => {
-    onAddNode(event);
-  });
+  const onAddNode = useCallback(
+    (event) => {
+      const reactFlowBounds = reactFlowWrapper.current.getBoundingClientRect();
+      const position = reactFlowInstance.project({
+        x: event.clientX - reactFlowBounds.left,
+        y: event.clientY - reactFlowBounds.top,
+      });
+      const id = getElementId(ELEMENT_CATEGORIES.node);
+      setElements((preValue) => [
+        ...preValue,
+        createTaskNode({
+          // `data` object passed to `TaskNode` component
+          data: {
+            onNodeStateChangeById,
+          },
+          id,
+          position,
+        }),
+      ]);
+    },
+    [reactFlowInstance, setElements, onNodeStateChangeById]
+  );
+
+  const onPaneDoubleTap = useCallback(
+    (event) => {
+      onAddNode(event);
+    },
+    [onAddNode]
+  );
+  const onPaneClick = useDoubleTap(onPaneDoubleTap, onPaneSingleTap);
 
   /**
    * edge must only be added when all the following conditions meet
@@ -86,20 +125,17 @@ function FlowCanvas() {
 
   const onNodeSingleTap = useCallback(
     (node) => {
-      // TODO: technically, this should be extracted into a function as close extended node
-      // and the other condition is when clicked elsewhere
-      if (
-        elements.find((el) => el.id === node.id).data.extendedNodeId === node.id
-      ) {
-        // TODO: extract this logic to a separate function coz we need to reset when we click anywhere else
-        // TODO: store this extendedNodeId in a separate identifier like other data identifiers
-        // TODO: node must move back to its original state when clicked somewhere else
-        onNodeStateChange('extendedNodeId', '');
-      } else {
-        onNodeStateChange('extendedNodeId', node.id);
+      if (node.id === config.data.selectedNode) {
+        collapseNode();
+        return;
       }
+      onNodeStateChangeById(
+        TASK_NODE_ELEMENT_NAMES.selectedNode,
+        node.id,
+        CONFIG_ID
+      );
     },
-    [elements, onNodeStateChange]
+    [onNodeStateChangeById, config, collapseNode]
   );
   const onEdgeSingleTap = useCallback(() => {}, []);
   const onEdgeDoubleTap = useCallback(() => {}, []);
@@ -123,8 +159,8 @@ function FlowCanvas() {
         onEdgeDoubleTap(element);
       }
     },
-    300,
-    onElementSingleTap
+    onElementSingleTap,
+    200
   );
 
   const onLoad = useCallback(
@@ -133,7 +169,7 @@ function FlowCanvas() {
   );
 
   const onNodeStateChangeById = useCallback(
-    (nodeId, stateKey, stateValue) => {
+    (stateKey, stateValue, nodeId) => {
       setElements((els) =>
         els.map((el) => {
           if (isNode(el) && el.id === nodeId) {
@@ -150,49 +186,6 @@ function FlowCanvas() {
       );
     },
     [setElements]
-  );
-
-  const onNodeStateChange = useCallback(
-    (stateKey, stateValue) => {
-      setElements((els) =>
-        els.map((el) => {
-          if (isNode(el)) {
-            return {
-              ...el,
-              data: {
-                ...el.data,
-                [stateKey]: stateValue,
-              },
-            };
-          }
-          return el;
-        })
-      );
-    },
-    [setElements]
-  );
-
-  const onAddNode = useCallback(
-    (event) => {
-      const reactFlowBounds = reactFlowWrapper.current.getBoundingClientRect();
-      const position = reactFlowInstance.project({
-        x: event.clientX - reactFlowBounds.left,
-        y: event.clientY - reactFlowBounds.top,
-      });
-      const id = getElementId(ELEMENT_CATEGORIES.node);
-      setElements((preValue) => [
-        ...preValue,
-        createTaskNode({
-          // `data` object passed to `TaskNode` component
-          data: {
-            onNodeStateChangeById,
-          },
-          id,
-          position,
-        }),
-      ]);
-    },
-    [reactFlowInstance, setElements, onNodeStateChangeById]
   );
 
   const onConnectElements = useCallback(
@@ -223,7 +216,7 @@ function FlowCanvas() {
           elements={elements}
           onConnect={onConnectElements}
           onElementsRemove={onRemoveElements}
-          onPaneClick={onPaneDoubleTap}
+          onPaneClick={onPaneClick}
           onLoad={onLoad}
           nodeTypes={{ taskNode: TaskNode }}
           edgeTypes={{ taskEdge: TaskEdge }}
