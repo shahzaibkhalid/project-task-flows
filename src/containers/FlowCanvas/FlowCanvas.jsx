@@ -226,6 +226,7 @@ function FlowCanvas() {
           onElementClick={onElementDoubleTap}
           connectionLineComponent={TaskConnectionLine}
           snapToGrid
+          zoomOnPinch
         >
           <Background size={1} />
           <MiniMap />
